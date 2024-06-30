@@ -1,0 +1,8 @@
+include $(GNUSTEP_MAKEFILES)/common.make
+
+LIBRARY_NAME = OpenGLES_ES2
+OpenGLES_ES2_HEADER_FILES = gl.h glext.h
+OpenGLES_ES2_HEADER_FILES_INSTALL_DIR = OpenGLES/ES2
+OpenGLES_ES2_INCLUDE_DIRS = -I../
+
+include $(GNUSTEP_MAKEFILES)/library.make

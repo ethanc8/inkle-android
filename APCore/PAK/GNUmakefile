@@ -1,0 +1,10 @@
+include $(GNUSTEP_MAKEFILES)/common.make
+
+LIBRARY_NAME = PAK
+PAK_HEADER_FILES = PAK.h
+PAK_HEADER_FILES_INSTALL_DIR = PAK
+PAK_INCLUDE_DIRS = -I../
+PAK_OBJC_FILES = PAK.m
+PAK_OBJCFLAGS += -fobjc-arc -fobjc-weak
+
+include $(GNUSTEP_MAKEFILES)/library.make

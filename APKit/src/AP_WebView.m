@@ -11,6 +11,9 @@
 #import "AP_Label.h"
 #import "AP_Window.h"
 
+// TODO: These constants need to be added to Opal
+#import "../../APCore/CoreText/FakeCoreText.h"
+
 @implementation AP_WebView {
     AP_Label* _label;
     NSString* _indexHtml;
