@@ -88,36 +88,36 @@ static BOOL isTag(xmlNode* n, const char* tag) {
             attributes:attrs];
     }
 
-#ifndef EIGHTY_DAYS
-    // Sorcery! styles. TODO: extract this into game-specific code.
-    if (isTag(n, "strong")) {
-        AP_Font* font = [attrs objectForKey:NSFontAttributeName];
-        font = [AP_Font fontWithName:@"Baskerville-Bold" size:font.pointSize];
-        attrs = [attrs mutableCopy];
-        [attrs setValue:font forKey:NSFontAttributeName];
-    }
+// #ifndef EIGHTY_DAYS
+//     // Sorcery! styles. TODO: extract this into game-specific code.
+//     if (isTag(n, "strong")) {
+//         AP_Font* font = [attrs objectForKey:NSFontAttributeName];
+//         font = [AP_Font fontWithName:@"Baskerville-Bold" size:font.pointSize];
+//         attrs = [attrs mutableCopy];
+//         [attrs setValue:font forKey:NSFontAttributeName];
+//     }
 
-    if (isTag(n, "em")) {
-        AP_Font* font = [attrs objectForKey:NSFontAttributeName];
-        font = [AP_Font fontWithName:@"Baskerville-Italic" size:font.pointSize];
-        attrs = [attrs mutableCopy];
-        [attrs setValue:font forKey:NSFontAttributeName];
-    }
+//     if (isTag(n, "em")) {
+//         AP_Font* font = [attrs objectForKey:NSFontAttributeName];
+//         font = [AP_Font fontWithName:@"Baskerville-Italic" size:font.pointSize];
+//         attrs = [attrs mutableCopy];
+//         [attrs setValue:font forKey:NSFontAttributeName];
+//     }
 
-    // Hack -- just so happens there's only one <span> in credits.css
-    if (isTag(n, "span")) {
-        AP_Font* font = [attrs objectForKey:NSFontAttributeName];
-        font = [AP_Font fontWithName:@"Baskerville-Bold" size:font.pointSize * 1.2];
-        attrs = [attrs mutableCopy];
-        [attrs setValue:font forKey:NSFontAttributeName];
-    }
-#else
-    // 80 Days styles
-    if (isTags(n, "strong", "b", "em", "i", NULL)) {
-        attrs = [attrs mutableCopy];
-        [attrs setValue:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
-    }
-#endif
+//     // Hack -- just so happens there's only one <span> in credits.css
+//     if (isTag(n, "span")) {
+//         AP_Font* font = [attrs objectForKey:NSFontAttributeName];
+//         font = [AP_Font fontWithName:@"Baskerville-Bold" size:font.pointSize * 1.2];
+//         attrs = [attrs mutableCopy];
+//         [attrs setValue:font forKey:NSFontAttributeName];
+//     }
+// #else
+//     // 80 Days styles
+//     if (isTags(n, "strong", "b", "em", "i", NULL)) {
+//         attrs = [attrs mutableCopy];
+//         [attrs setValue:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+//     }
+// #endif
 
     if (isTag(n, "a")) {
         // Hyperlinks in Holo blue: http://developer.android.com/design/style/color.html

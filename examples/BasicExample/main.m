@@ -3,7 +3,7 @@
 #import "ViewController.h"
 
 id<AP_ApplicationDelegate> AP_GetDelegate(void) {
-    return [AppDelegate class];
+    return [[AppDelegate alloc] init];
 }
 
 int main(int argc, char** argv) {

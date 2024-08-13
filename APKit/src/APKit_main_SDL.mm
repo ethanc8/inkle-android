@@ -495,6 +495,10 @@ static void logStatfs(NSString* path) {
         _touches = [NSMutableDictionary dictionary];
         _blocks = [NSMutableDictionary dictionary];
     }
+
+    // FIXME - These need to actually be changed
+    _inForeground = YES;
+
     NSLog(@"Finished -[Main initWithAndroidApp:]");
     return self;
 }
@@ -567,6 +571,12 @@ static void logStatfs(NSString* path) {
 //     return _pakNamesCache;
 // }
 
+
+// FIXME
+- (PAK_Item*) pakItem:(NSString*)path {
+    NSLog(@"-[Main pakItem: @\"%@\"]", path);
+    return nil;
+}
 
 // - (PAK_Item*) pakItem:(NSString*)path
 // {
@@ -772,11 +782,15 @@ static void logStatfs(NSString* path) {
     // Without this, the splash screen gets leaked...?
     window.rootViewController = nil;
 
+    // On Linux, the ICU data is provided by the system
+    // FIXME: AP_Bundle and PAK aren't currently working
     NSLog(@"Initializing ICU...");
     NSData* icuDat = [NSBundle dataForResource:@"icudt51l.dat" ofType:nil];
     UErrorCode icuErr = U_ZERO_ERROR;
+    #ifndef LINUX
     udata_setCommonData(icuDat.bytes, &icuErr);
     NSAssert(U_SUCCESS(icuErr), @"ICU error: %d", icuErr);
+    #endif
 
     // Hard-code the local to en_GB, as some others use characters we don't support.
     NSString* locale = @"en_GB"; // [self javaStringMethod:&kGetLocale];
@@ -971,22 +985,35 @@ const EGLint basicAttribs[] = {
         char const* videoDriver = SDL_GetCurrentVideoDriver();
 
         SDL_SysWMinfo wminfo;
+        SDL_VERSION(&wminfo.version);
         SDL_GetWindowWMInfo(_sdlwindow, &wminfo);
 
         EGLNativeWindowType native_window;
 
-        #ifdef SDL_VIDEO_DRIVER_WAYLAND
-        if(strcmp(videoDriver, "wayland") == 0) {
-            native_window = (EGLNativeWindowType)(void*)wminfo.info.wl.egl_window;
-        }
-        #endif
+        // #ifdef SDL_VIDEO_DRIVER_WAYLAND
+        // if(strcmp(videoDriver, "wayland") == 0) {
+        //     native_window = (EGLNativeWindowType)(void*)wminfo.info.wl.egl_window;
+        // }
+        // #endif
         #ifdef SDL_VIDEO_DRIVER_X11
         if(strcmp(videoDriver, "x11") == 0) {
             native_window = wminfo.info.x11.window;
         }
         #endif
 
+        NSLog(@"Window: %llx", (long long)native_window);
+
         _surface = eglCreateWindowSurface(_display, _config, native_window, NULL);
+
+        EGLint egl_error = eglGetError();
+
+        if(_surface == EGL_NO_SURFACE) {
+            NSLog(@"Warning: _surface == EGL_NO_SURFACE");
+        }
+
+        if(egl_error != EGL_SUCCESS) {
+            NSLog(@"EGL error: %llx", (long long)egl_error);
+        }
 
         if (eglMakeCurrent(_display, _surface, _surface, _context) == EGL_FALSE) {
             NSLog(@"Initializing EGL surface... Failed!");
@@ -1396,6 +1423,7 @@ extern "C" void AP_ApplicationMain(int argc, char** argv, NSString* principalCla
     // }
 
     [g_Main maybeInitSurface];
+    [g_Main maybeInitApp];
 
     // loop waiting for stuff to do.
     while (1) {
@@ -1453,6 +1481,7 @@ extern "C" void AP_ApplicationMain(int argc, char** argv, NSString* principalCla
             [g_Main maybeInitSurface];
 
             if (g_Main.canDraw) {
+                NSLog(@"Drawing...");
                 [g_Main maybeInitApp];
 
                 // Run Objective-C timers.

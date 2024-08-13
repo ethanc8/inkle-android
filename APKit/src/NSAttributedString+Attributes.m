@@ -20,7 +20,7 @@
 
 - (void) setFont:(UIFont*)font range:(NSRange)range
 {
-    [self addAttribute:NSFontAttributeName value:font range:range];
+    // [self addAttribute:NSFontAttributeName value:font range:range];
 }
 
 - (void) setTextColor:(UIColor*)color

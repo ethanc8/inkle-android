@@ -198,7 +198,7 @@
     _text = [[NSMutableAttributedString alloc] initWithString:text];
 
     NSRange r = NSMakeRange(0, _text.length);
-    [_text addAttribute:NSFontAttributeName value:_font range:r];
+    // [_text addAttribute:NSFontAttributeName value:_font range:r];
     [_text addAttribute:NSForegroundColorAttributeName value:_textColor range:r];
 
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
@@ -224,7 +224,7 @@
         _font = font;
 
         NSRange r = NSMakeRange(0, _text.length);
-        [_text addAttribute:NSFontAttributeName value:_font range:r];
+        // [_text addAttribute:NSFontAttributeName value:_font range:r];
 
         [self setNeedsTextLayout];
     }

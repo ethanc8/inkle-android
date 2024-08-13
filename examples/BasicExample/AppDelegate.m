@@ -4,12 +4,11 @@
 @implementation AppDelegate
 @synthesize window;
 
-// See https://scribe.rip/creating-ios-apps-without-storyboards-42a63c50756f
 - (BOOL) application:(AP_Application*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
-    window = [[AP_Window alloc] init];
+    NSLog(@"App delegate called");
+    AP_Window* ap_window = (AP_Window*)window.rootViewController;
     ViewController* viewController = [[ViewController alloc] init];
-    window.rootViewController = viewController;
-    [window makeKeyAndVisible];
+    ap_window.rootViewController = viewController;
 
     return YES;
 }
