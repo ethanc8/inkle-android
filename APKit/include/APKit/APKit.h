@@ -1,5 +1,6 @@
 #pragma once
 
+#define AP_REPLACE_UI
 #ifdef AP_REPLACE_UI
 
 #import "AP_Check.h"
