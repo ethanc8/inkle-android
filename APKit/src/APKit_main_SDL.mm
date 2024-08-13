@@ -495,6 +495,7 @@ static void logStatfs(NSString* path) {
         _touches = [NSMutableDictionary dictionary];
         _blocks = [NSMutableDictionary dictionary];
     }
+    NSLog(@"Finished -[Main initWithAndroidApp:]");
     return self;
 }
 
@@ -1368,7 +1369,7 @@ const EGLint basicAttribs[] = {
 //     struct objc_class _NSConcreteGlobalBlock;
 // }
 
-void AP_ApplicationMain(int argc, char** argv, NSString* principalClassName, NSString* delegateClassName) {
+extern "C" void AP_ApplicationMain(int argc, char** argv, NSString* principalClassName, NSString* delegateClassName) {
 
     // objc_set_NSConcreteGlobalBlock((__bridge Class) &_NSConcreteGlobalBlock);
     // objc_set_NSConcreteStackBlock((__bridge Class) &_NSConcreteStackBlock);
@@ -1385,6 +1386,7 @@ void AP_ApplicationMain(int argc, char** argv, NSString* principalClassName, NSS
 
     Main* app = [[Main alloc] initWithAndroidApp:nil];
     AP_CHECK(app == g_Main, abort());
+    NSLog(@"initialized with nil app");
 
     // android->onAppCmd = handleAppCmd;
     // android->onInputEvent = handleInputEvent;
@@ -1393,8 +1395,11 @@ void AP_ApplicationMain(int argc, char** argv, NSString* principalClassName, NSS
     //     // We are starting with a previous saved state; restore from it.
     // }
 
+    [g_Main maybeInitSurface];
+
     // loop waiting for stuff to do.
     while (1) {
+        NSLog(@"Mainloop iteration");
 		[g_Main maybeDisplayURL];
 
         @autoreleasepool {
@@ -1420,6 +1425,7 @@ void AP_ApplicationMain(int argc, char** argv, NSString* principalClassName, NSS
             }
             
             while (timeout != 0 || SDL_PollEvent(&event)) {
+                NSLog(@"Polled events, timeout %d", timeout);
 				[g_Main maybeDisplayURL];
 
                 gotInput = YES;

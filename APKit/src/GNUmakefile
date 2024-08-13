@@ -6,13 +6,12 @@ APKit_HEADER_FILES_DIR = ../include/APKit
 APKit_HEADER_FILES_INSTALL_DIR = APKit
 APKit_INCLUDE_DIRS = -I../include/APKit -I../../include -I../../more-tools/stb
 APKit_OBJC_FILES = AP_ActivityIndicatorView.m AP_ActivityViewController.m AP_AlertView.m AP_AnimatedProperty.m AP_Animation.m AP_Application.m AP_Bundle.m AP_Button.m AP_Checkbox.m AP_Control.m AP_Event.m AP_FileUtils.m AP_Font_Data.m AP_Font.m AP_Font_Run.m AP_FPSCounter.m AP_GLBuffer.m AP_GLKBaseEffect.m AP_GLKEffectPropertyLight.m AP_GLKEffectPropertyMaterial.m AP_GLKEffectPropertyTexture.m AP_GLKEffectPropertyTransform.m AP_GLKTextureInfo.m AP_GLKTextureLoader.m AP_GLKViewController.m AP_GLKView.m AP_GL.m AP_GLProgram.m AP_GLTexture_KTX.m AP_GLTexture.m AP_GLTexture_PNG.m AP_GLTexture_PVR.m AP_Image.m AP_ImageView.m AP_Label.m AP_Layer.m AP_Log.m AP_NavigationController.m AP_PageViewController.m AP_Profiler.m AP_Responder.m AP_ScrollView.m AP_StrongCache.m AP_TextField.m AP_Touch.m AP_UserDefaults.m AP_Utils.m AP_ViewController.m AP_View.m AP_WeakCache.m AP_WeakSet.m AP_WebView.m AP_Window.m NSAttributedString+Attributes.m NSDictionary+AP_InitWithData.m NSObject+AP_KeepAlive.m NSObject+AP_PerformBlock.m NSObject+AP_RoundRect.m NSObject+debugDescription.m NSString+sizeWithFont.m
-APKit_OBJCC_FILES = AP_BookView.mm AP_GestureRecognizer.mm AP_GLTexture_CRN.mm
-# APKit_main.mm
+APKit_OBJCC_FILES = AP_BookView.mm AP_GestureRecognizer.mm AP_GLTexture_CRN.mm APKit_main_SDL.mm
 APKit_OBJCFLAGS += -fobjc-arc -fobjc-weak
 APKit_OBJCCFLAGS += -fobjc-arc -fobjc-weak
 APKit_CPPFLAGS += -DLINUX -DSORCERY_SDL -DAP_REPLACE_UI
 
-APKit_LIBRARIES_DEPEND_UPON += -lUIKit -lGL -lopal -lGLKit -lPAK
+APKit_LIBRARIES_DEPEND_UPON += -lUIKit -lGL -lopal -lGLKit -lPAK -lEGL
 
 # SDL2
 APKit_LIBRARIES_DEPEND_UPON += -lSDL2 -lSDL2main
