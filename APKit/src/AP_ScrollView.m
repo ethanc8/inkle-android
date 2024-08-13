@@ -304,6 +304,9 @@ const CGFloat UIScrollViewDecelerationRateFast = 25.0;
     const float kStep = [AP_Window scaleForIPhone:16 iPad:24];
 #elif defined(OSX)
     const float kStep = [AP_Window scaleForIPhone:2 iPad:3];
+#elif defined(LINUX)
+    // TODO: Figure out what this should really be
+    const float kStep = [AP_Window scaleForIPhone:16 iPad:24];
 #else
     #error Don't know what scroll wheel step size should be for this platform.
 #endif

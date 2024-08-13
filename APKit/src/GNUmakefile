@@ -10,10 +10,10 @@ APKit_OBJCC_FILES = AP_BookView.mm AP_GestureRecognizer.mm AP_GLTexture_CRN.mm
 # APKit_main.mm
 APKit_OBJCFLAGS += -fobjc-arc -fobjc-weak
 APKit_OBJCCFLAGS += -fobjc-arc -fobjc-weak
-APKit_CPPFLAGS += -DLINUX
+APKit_CPPFLAGS += -DLINUX -DSORCERY_SDL -DAP_REPLACE_UI
 
 # libxml2
-APKit_LIBRARIES_DEPEND_UPON += $(shell pkg-config --libs libxml-2.0)
+APKit_LIBRARIES_DEPEND_UPON += $(shell pkg-config --libs libxml-2.0) -lSDL2 -lSDL2main
 APKit_INCLUDE_DIRS += $(shell pkg-config --cflags-only-I libxml-2.0)
 APKit_OBJCFLAGS += $(shell pkg-config --cflags-only-other libxml-2.0)
 APKit_OBJCCFLAGS += $(shell pkg-config --cflags-only-other libxml-2.0)

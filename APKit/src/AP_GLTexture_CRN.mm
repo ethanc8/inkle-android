@@ -1,6 +1,8 @@
 #import "AP_GLTexture_CRN.h"
 
-#ifdef SORCERY_SDL
+// TODO: Do we need crnlib/crunch/Crunch2?
+#if 0
+// #ifdef SORCERY_SDL
 
 #import <CoreFoundation/CoreFoundation.h>
 
