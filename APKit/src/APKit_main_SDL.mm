@@ -1221,6 +1221,47 @@ const EGLint basicAttribs[] = {
     [_touches removeObjectForKey:n];
 }
 
+- (BOOL) handleSDLEvent: (SDL_Event*) event {
+    Real_UIViewController* vc = self.delegate.window.rootViewController;
+    if (!vc) {
+        NSLog(@"App isn't initialized yet -- ignoring input event");
+        return NO;
+    }
+
+    if(event->type == SDL_KEYDOWN) {
+        if(event->key.keysym.sym == SDLK_ESCAPE) {
+            return [self.delegate handleAndroidBackButton];
+        }
+
+        return NO;
+    }
+
+    if(event->type == SDL_MOUSEBUTTONDOWN || event->type == SDL_MOUSEBUTTONUP) {
+        // int64_t nanos = AMotionEvent_getEventTime(event);
+        double secs = event->common.timestamp / (1000.0);
+        Real_UIEvent* e = [[Real_UIEvent alloc] init];
+        e.timestamp = secs;
+
+        NSMutableSet* set = [NSMutableSet set];
+
+        // It's an UP or DOWN event, with just one pointer.
+        int32_t pointer = event->button.which;
+        float x = event->button.x;
+        float y = event->button.y;
+        Real_UITouch* touch = [self touchForPointerID:pointer x:x y:y];
+        [set addObject:touch];
+        if(event->type == SDL_MOUSEBUTTONDOWN) {
+            [vc touchesBegan:set withEvent:e];
+        } else if(event->type == SDL_MOUSEBUTTONUP) {
+            [vc touchesEnded:set withEvent:e];
+            [self deletePointerID:pointer];
+        }
+        return YES;
+    }
+
+    return NO;
+}
+
 // - (BOOL) handleInputEvent:(AInputEvent*)event
 // {
 //     Real_UIViewController* vc = self.delegate.window.rootViewController;
@@ -1473,6 +1514,9 @@ extern "C" void AP_ApplicationMain(int argc, char** argv, NSString* principalCla
                         _exit(EXIT_SUCCESS);
                         return;
                     } break;
+                    default: {
+                        [g_Main handleSDLEvent: &event];
+                    }
                 }
             }
 
@@ -1481,7 +1525,7 @@ extern "C" void AP_ApplicationMain(int argc, char** argv, NSString* principalCla
             [g_Main maybeInitSurface];
 
             if (g_Main.canDraw) {
-                NSLog(@"Drawing...");
+                // NSLog(@"Drawing...");
                 [g_Main maybeInitApp];
 
                 // Run Objective-C timers.

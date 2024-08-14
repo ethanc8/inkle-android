@@ -20,21 +20,31 @@
     [self.view addSubview: loginButton];
     [loginButton addTarget: self action: @selector(handleLoginTouchUpInside) forControlEvents: UIControlEventTouchUpInside];
 
-    nameTextField = [[UITextField alloc] initWithFrame:(CGRect){.origin = 0, .size = (NSSize){100, 100}}];
-    nameTextField.backgroundColor = UIColor.greenColor;
-    // nameTextField.placeholder = @"Login Name";
-    [self.view addSubview: nameTextField];
+    // nameTextField = [[UITextField alloc] initWithFrame:(CGRect){.origin = 0, .size = (NSSize){100, 100}}];
+    // nameTextField.backgroundColor = UIColor.greenColor;
+    // // nameTextField.placeholder = @"Login Name";
+    // [self.view addSubview: nameTextField];
 
-    passwordTextField = [[UITextField alloc] initWithFrame:(CGRect){.origin = 0, .size = (NSSize){100, 100}}];
-    passwordTextField.backgroundColor = UIColor.blueColor;
-    [self.view addSubview: passwordTextField];
+    // passwordTextField = [[UITextField alloc] initWithFrame:(CGRect){.origin = 0, .size = (NSSize){100, 100}}];
+    // passwordTextField.backgroundColor = UIColor.blueColor;
+    // [self.view addSubview: passwordTextField];
 
-    UIView* blackView = [[UITextField alloc] initWithFrame:(CGRect){.origin = 0, .size = (NSSize){100, 100}}];
+    UIView* blackView = [[UITextField alloc] initWithFrame:(CGRect){.origin = (NSPoint){0, 0}, .size = (NSSize){400, 400}}];
     blackView.backgroundColor = UIColor.blackColor;
     [self.view addSubview: blackView];
 }
 
 - (void) handleLoginTouchUpInside {
     NSLog(@"Login has been tapped");
+}
+
+- (UIColor*) backgroundColor {
+    NSLog(@"Returning backgroundColor %@", self.view.backgroundColor);
+    return self.view.backgroundColor;
+}
+
+- (void) setBackgroundColor: (UIColor*)backgroundColor {
+    NSLog(@"Setting backgroundColor %@", backgroundColor);
+    self.view.backgroundColor = backgroundColor;
 }
 @end
